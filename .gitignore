@@ -1,0 +1,7 @@
+.idea
+.pytest_cache
+data
+models
+output
+utils
+weights
