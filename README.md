@@ -141,7 +141,7 @@ print('共处理', count, '张图片')
 ```
 结果
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/d3d72f7755a641d786646acb47832141.png)
-## 2. 将重名完的数据集进行格式转换
+## 2. 将重名完的测试数据集进行格式转换
 将yolo格式的标签转成cocotools的ground true格式的json文件。
 `yolo2coco.py`
 ```python
