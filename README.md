@@ -1,5 +1,9 @@
 # 介绍
 本博客是讲如何使用yolov5对测试集进行检测，然后使用cocotools进行评估。
+[6.1版本模型看这个博客](https://blog.csdn.net/qq_43774943/article/details/128366148)
+代码:
+* [5.0版链接](https://github.com/mpj1234/yolov5-cocotools)
+* [6.1版链接](https://github.com/mpj1234/yolov5-6.1-cocotools)
 
 # 环境
 pytorch只需要保证能跑起来yolov5
@@ -14,7 +18,7 @@ coco数据集的格式也就是本博客中使用的`ground true`。
 	"info": {},  # 数据集的一些信息
 	"licenses": [{}],  # 许可相关信息
 	"images": [{}],  # 图片信息list，重要
-	"annotations": [{}],  # 标注信息list，重要
+	"annotations": [{}]  # 标注信息list，重要
 	"categories": [{}]  # 类别信息list，重要
 }
 
@@ -93,6 +97,17 @@ categories: [
 # 代码和使用
 ## 1. 将测试集名字全部转成数字
 这个代码是讲所有测试集中图片和对应的txt标签名字全部转成数字，方便对于image_id的获得，这个image_id是int格式。
+**数据集目录格式**
+ data
+ ├── images
+│   ├── 000000000001.jpg
+│   ├── 000000000002.jpg
+│   ├── 000000000003.jpg
+├── labels
+│   ├── 000000000001.txt
+│   ├── 000000000002.txt
+│   ├── 000000000003.txt
+
 `rename_yolo_txt.py`
 ```python
 # -*- coding: UTF-8 -*-
@@ -406,5 +421,7 @@ if __name__ == '__main__':
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/39f2fc4c9b0c49a0b050140e67ebdf3a.png)
 
 `如果发现cocotools和yolov5的test两个结果差距较大，检查你是用的置信度阈值和NMS阈值是否统一。`
+
+`我测试的结果是y使用olov5的val.py得到的map@.5和map@.5:.95值和cocotools得到的值有出入，在2个点左右`
 # 参考
 `https://blog.csdn.net/weixin_44751294/article/details/126580294`
