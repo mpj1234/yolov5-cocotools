@@ -7,6 +7,22 @@
 from pycocotools.coco import COCO
 from pycocotools.cocoeval import COCOeval
 
+
+def _eval(cocoGt, cocoDt, catIds, f, iouType='bbox'):
+	"""
+	param cocoGt: COCO ground truth
+	param cocoDt: COCO detection results
+	param catIds: array of category ids
+	param iouType: 'bbox' or 'segm'
+	"""
+	cocoEval = COCOeval(cocoGt, cocoDt, iouType)
+	cocoEval.params.catIds = catIds
+	cocoEval.evaluate()
+	cocoEval.accumulate()
+	cocoEval.summarize()
+	f.write(str(cocoEval.stats) + '\n')
+
+
 if __name__ == '__main__':
 	pred_json = './output/detect_coco.json'
 	anno_json = './output/gt_coco.json'
@@ -15,17 +31,18 @@ if __name__ == '__main__':
 	cocoGt = COCO(anno_json)
 	cocoDt = cocoGt.loadRes(pred_json)
 
-	# 创建COCOeval对象
-	cocoEval = COCOeval(cocoGt, cocoDt, 'bbox')
+	# 获取所有gt的类别id
+	catIds = cocoGt.getCatIds()
 
-	# 执行评估
-	cocoEval.evaluate()
-	cocoEval.accumulate()
-	cocoEval.summarize()
-
-	# 保存结果
 	with open('./output/coco_eval.txt', 'w') as f:
-		f.write(str(cocoEval.stats))
+		for catId in catIds:
+			# 获取类别名称
+			catName = cocoGt.loadCats(catId)[0]['name']
+			print('class name: ', catName)
+			f.write('class name: ' + catName + '\n')
+			_eval(cocoGt, cocoDt, [catId], f)
+			print('----------------------------------------')
+			f.write('----------------------------------------\n')
 
-	# 打印结果
-	print(cocoEval.stats)
+		# 获取所有类别的评估结果
+		_eval(cocoGt, cocoDt, catIds, f)

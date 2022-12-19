@@ -1,6 +1,8 @@
 # 介绍
 本博客是讲如何使用yolov5对测试集进行检测，然后使用cocotools进行评估。
 
+可以显示每一个类别的ap和总的ap。
+
 [6.1版本模型看这个博客](https://blog.csdn.net/qq_43774943/article/details/128366148)
 
 代码:
